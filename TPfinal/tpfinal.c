@@ -145,7 +145,7 @@ void menu(){
                 case 3:
                         switch(opcion2){
                             case 1:
-                                //AltaProvs();
+                               AltaProvs();
                                 break;
                             case 2:
                                 //BajaProvs();
