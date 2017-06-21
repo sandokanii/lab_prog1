@@ -229,7 +229,7 @@ void AltaPresu(){
      
  }
  void BajaClientes(){
-     
+     printf("k metemos aca??");
  }
  void AltaProvs(){
     FILE *pf;
