@@ -260,7 +260,17 @@ void ListadoPresu(){
     }
     fclose(pf);
 }
- 
+void ListadoClientes(){
+      FILE *pf;
+    Clientes cliente;
+    pf = fopen("Cliente.dat","rb");
+    fread(&cliente,sizeof(cliente),1,pf);
+    while(!feof(pf)){
+        printf("%s ; %s ; %s ; %s ; %s \n",cliente.cuit,cliente.cliente,cliente.email,cliente.fechaalta,cliente.telefono);
+        fread(&cliente,sizeof(Clientes),1,pf);
+    }
+    fclose(pf);
+} 
 void ModifPresu(){
     FILE *pf,*pfaux;
     Presupuesto presu;
