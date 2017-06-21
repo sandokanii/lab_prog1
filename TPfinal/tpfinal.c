@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   TPfinal.c
- * Author: usuario
+ * Author: sandro ivanovich y roberto calisto
  *
  * Created on 19 de junio de 2017, 15:41
  */
@@ -170,7 +164,7 @@ void menu(){
                 case 4:
                         switch(opcion2){
                             case 1:
-                                //AltaClientes();
+                                AltaClientes();
                                 break;
                             case 2:
                                 //BajaClientes();
@@ -213,7 +207,48 @@ void AltaPresu(){
     system("clear");
     menu();
 }
- 
+ void AltaClientes(){
+    FILE *pf;
+    Clientes  cliente;
+    pf = fopen("clientes.dat","ab");
+    printf("Ingrese CUIT\n");
+    scanf("%i",&cliente.cuit);
+    printf("Ingrese Cliente\n");
+    scanf("%s",cliente.cliente);
+    printf("Ingrese Fecha de alta\n");
+    scanf("%s",cliente.fechaalta);
+    printf("Ingrese Email\n");
+    scanf("%s",cliente.email);
+    printf("Ingrese Telefono\n");
+    scanf("%s",cliente.telefono);
+    fseek(pf,0L,SEEK_END);
+    fwrite(&cliente,sizeof(Clientes),1,pf);
+    fclose(pf);
+    system("clear");
+    menu();
+     
+ }
+ void BajaClientes(){
+     
+ }
+ void AltaProvs(){
+    FILE *pf;
+    Proveedores  proveedor;
+    pf = fopen("proveedores.dat","ab");
+    printf("Ingrese Codigo\n");
+    scanf("%i",proveedor.codigo);
+    printf("Ingrese Nombre\n");
+    scanf("%c",&proveedor.nombre);
+    printf("Ingrese Telefono\n");
+    scanf("%c",&proveedor.telefono);
+    printf("Ingrese Email\n");
+    scanf("%c",&proveedor.email);
+    fseek(pf,0L,SEEK_END);
+    fwrite(&proveedor,sizeof(Proveedores),1,pf);
+    fclose(pf);
+    system("clear");
+    menu();
+ }
 void ListadoPresu(){
     FILE *pf;
     Presupuesto presu;
@@ -366,6 +401,6 @@ void BajaProds(){
     fclose(pf);
     fclose(pfaux);
     remove("Productos.dat");
-   // rename("Productosaux.dat","Productos.dat");
+    rename("Productosaux.dat","Productos.dat");
 }
 
