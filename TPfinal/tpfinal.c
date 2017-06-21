@@ -94,9 +94,9 @@ void menu(){
         printf("             -------------------------------------------\n");
         printf("                          1) Alta\n");
         printf("                          2) Baja\n");
-        printf("                          3) Modificación\n");
+        printf("                          3) Modificacion\n");
         printf("                          4) Listado\n");
-        printf("                          5) Volver al Menú\n");
+        printf("                          5) Volver al Menu\n");
         printf("             -------------------------------------------\n");
         printf("             -------------------------------------------\n");
         printf("             -------------------------------------------\n");
@@ -151,10 +151,10 @@ void menu(){
                                 //BajaProvs();
                                 break;
                             case 3:
-                                //ModifProvs();
+                                ModifProvs();
                                 break;
                             case 4:
-                                //ListadoProvs();
+                                ListadoProvs();
                                 break;
                             case 5:
                                 menu();
@@ -173,7 +173,7 @@ void menu(){
                                 //ModifClientes();
                                 break;
                             case 4:
-                                //ListadoClientes();
+                                ListadoClientes();
                                 break;
                             case 5:
                                 menu();
@@ -192,8 +192,8 @@ void menu(){
 void AltaPresu(){   
     FILE *pf;
     Presupuesto presu;
-    pf = fopen("Presupuesto.dat","a");
-    printf("Ingrese Código\n");
+    pf = fopen("Presupuesto.dat","ab");
+    printf("Ingrese Codigo\n");
     scanf("%i",&presu.codigo);
     printf("Ingrese Fecha\n");
     scanf("%s",presu.fecha);
@@ -209,9 +209,50 @@ void AltaPresu(){
     system("clear");
     menu();
 }
-
-void BajaPresu(){
-    FILE *pf,*pfaux;
+ void AltaClientes(){
+    FILE *pf;
+    Clientes  cliente;
+    pf = fopen("clientes.dat","ab");
+    printf("Ingrese CUIT\n");
+    scanf("%s",cliente.cuit);
+    printf("Ingrese Cliente\n");
+    scanf("%s",cliente.cliente);
+    printf("Ingrese Fecha de alta\n");
+    scanf("%s",cliente.fechaalta);
+    printf("Ingrese Email\n");
+    scanf("%s",cliente.email);
+    printf("Ingrese Telefono\n");
+    scanf("%s",cliente.telefono);
+    fseek(pf,0L,SEEK_END);
+    fwrite(&cliente,sizeof(Clientes),1,pf);
+    fclose(pf);
+    system("clear");
+    menu();
+     
+ }
+ void BajaClientes(){
+     
+ }
+ void AltaProvs(){
+    FILE *pf;
+    Proveedores  proveedor;
+    pf = fopen("proveedores.dat","ab");
+    printf("Ingrese Codigo\n");
+    scanf("%i",&proveedor.codigo);
+    printf("Ingrese Nombre\n");
+    scanf("%s",proveedor.nombre);
+    printf("Ingrese Telefono\n");
+    scanf("%s",proveedor.telefono);
+    printf("Ingrese Email\n");
+    scanf("%s",proveedor.email);
+    fseek(pf,0L,SEEK_END);
+    fwrite(&proveedor,sizeof(Proveedores),1,pf);
+    fclose(pf);
+    system("clear");
+    menu();
+ }
+void ListadoPresu(){
+    FILE *pf;
     Presupuesto presu;
     int codigoaux;
     pf = fopen("Presupuesto.dat","r");
@@ -231,8 +272,17 @@ void BajaPresu(){
     remove("Presupuesto.dat");
     rename("Presupuestoaux.dat","Presupuesto.dat");
 }
-
- 
+void ListadoClientes(){
+      FILE *pf;
+    Clientes cliente;
+    pf = fopen("Cliente.dat","rb");
+    fread(&cliente,sizeof(cliente),1,pf);
+    while(!feof(pf)){
+        printf("%s ; %s ; %s ; %s ; %s \n",cliente.cuit,cliente.cliente,cliente.email,cliente.fechaalta,cliente.telefono);
+        fread(&cliente,sizeof(Clientes),1,pf);
+    }
+    fclose(pf);
+} 
 void ModifPresu(){
     FILE *pf,*pfaux;
     Presupuesto presu;
@@ -270,6 +320,9 @@ void ModifPresu(){
     FILE *pf;
     Presupuesto presu;
     pf = fopen("Presupuesto.dat","rb");
+    pfaux = fopen("Presupuestoaux.dat","ab");
+    printf("Ingrese Codigo\n");
+    scanf("%i",&codigoaux);
     fread(&presu,sizeof(Presupuesto),1,pf);
     while(!feof(pf)){
         printf("%i ; %s ; %s ; %.2f ; %.2f\n",presu.codigo,presu.fecha,presu.cuit,presu.total,presu.descuento);
@@ -323,6 +376,49 @@ void BajaProds(){
 } 
 
  
+void ListadoProvs(){
+    FILE *pf;
+    Proveedores proveedor;
+    pf = fopen("Proveedores.dat","rb");
+    fread(&proveedor,sizeof(Producto),1,pf);
+    while(!feof(pf)){
+        printf("%i ; %s ; %s ; %s \n",proveedor.codigo,proveedor.nombre,proveedor.telefono,proveedor.email);
+        fread(&proveedor,sizeof(Proveedores),1,pf);
+    }
+    fclose(pf);
+}
+
+void ModifProvs(){
+    FILE *pf,*pfaux;
+    Proveedores proveedor;
+    int codigoaux;
+    pf = fopen("Provedores.dat","rb");
+    pfaux = fopen("Proveedoresaux.dat","ab");
+    printf("Ingrese Codigo\n");
+    scanf("%i",&codigoaux);
+    fread(&proveedor,sizeof(Proveedores),1,pf);
+        while (!feof(pf)){
+                if (proveedor.codigo != codigoaux){
+                    fseek(pfaux,0l,SEEK_END);
+                    fwrite(&proveedor,sizeof(Proveedores),1,pfaux);
+                }else{
+                    printf("Ingrese Nombre\n");
+                    scanf("%s",proveedor.nombre);
+                    printf("Ingrese Telefono\n");
+                    scanf("%s",proveedor.telefono);
+                    printf("Ingrese Email\n");
+                    scanf("%s",proveedor.email);
+                    fseek(pfaux,0l,SEEK_END);
+                    fwrite(&proveedor,sizeof(Proveedores),1,pfaux);
+                }
+            fread(&proveedor,sizeof(Proveedores),1,pf);
+        }
+    fclose(pf);
+    fclose(pfaux);
+    remove("Proveedores.dat");
+    rename("Proveedoresaux.dat","Proveedores.dat");
+}
+
 void ModifProds(){
     FILE *pf,*pfaux;
     Producto prod;
